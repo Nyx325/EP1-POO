@@ -2,21 +2,22 @@ package Vista;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import Logica.Entidad.WhileChecker;
+import Logica.Excepciones.NoClosedLoop;
+import Logica.Excepciones.NoSuchSentence;
 
-public class WhileCheckerView extends Menu{
+public class WhileCheckerView extends Menu {
     WhileChecker checker;
 
-    public WhileCheckerView(){
-        input = new Scanner(System.in);
+    public WhileCheckerView() {
+        this.input = new Scanner(System.in);
     }
 
-    public void menu(){
+    public void menu() {
         int opt = 1;
 
-        do{
+        do {
 
             System.out.println("Bienvenido a la validacion de bucles while");
             System.out.println("1) Validar estructuras while de un archivo");
@@ -34,43 +35,17 @@ public class WhileCheckerView extends Menu{
                     System.out.println("\nOpción no válida\n");
                     break;
             }
-        }while(opt != 2);
+        } while (opt != 2);
     }
 
-
-    /*
-    public void checkFile(){
-        boolean flag = false;
-        do{
-
-            System.out.println("Ingrese la dirección del archivo a revisar");
-            String path = input.nextLine();
-            try {
-                this.checker = new WhileChecker(path);
-            } catch (NoSuchFileException e) {
-                System.out.println("El archivo ingresado no existe");
-                flag = true;
-            } catch (IOException e){
-                System.out.println("Ocurrió un error al abrir el archivo");
-                System.out.println("\n");
-                // Mostrar estos mensajes de en qué linea y en qué archivo ocurrió el error
-                e.getStackTrace();
-                System.out.println("\n");
-                flag = true;
-            }
-        }while(flag);
-        
-    }
-     */
-    public void checkFile(){
+    public void checkFile() {
         int opt;
-        boolean flag;
-        do{
+        do {
             System.out.println("Ingrese una opción");
             System.out.println("1) Capturar una ruta al archivo");
             System.out.println("2) Cancelar");
             opt = this.optSelector();
-            
+
             switch (opt) {
                 case 1:
 
@@ -80,18 +55,28 @@ public class WhileCheckerView extends Menu{
                         this.checker = new WhileChecker(path);
                     } catch (NoSuchFileException e) {
                         System.out.println("ERROR: El archivo ingresado no existe\n");
-                        flag = true;
-                    } catch (IOException e){
+                    } catch (IOException e) {
                         System.out.println("Ocurrió un error al abrir el archivo\n");
                         System.out.println("\n");
                         // Mostrar estos mensajes de en qué linea y en qué archivo ocurrió el error
                         e.getStackTrace();
                         System.out.println("\n");
-                        flag = true;
                     }
 
+                    try {
+                        this.checker.check();
+                    } /*
+                       * catch (NoClosedLoop e) {
+                       * System.out.println(e.getMessage());
+                       * }
+                       */ catch (NoSuchSentence e) {
+                        // TODO Auto-generated catch block
+                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
-                
                 case 2:
                     System.out.println("Cancelando operación...\n");
                     break;
@@ -99,7 +84,7 @@ public class WhileCheckerView extends Menu{
                     System.out.println("Opción no válida");
                     break;
             }
-        }while(opt != 2);
+        } while (opt != 2);
     }
 
 }
