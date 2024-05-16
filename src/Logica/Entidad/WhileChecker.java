@@ -8,11 +8,11 @@ import java.util.List;
 
 import Logica.Excepciones.NoWhileLoopOnFile;
 
-public class WhileCheker {
+public class WhileChecker {
     List<String> fileLines;
     List<WhileLoop> loopsOnFile;
 
-    public WhileCheker(String filePath) throws IOException{
+    public WhileChecker(String filePath) throws IOException{
         this.loopsOnFile = new ArrayList<>();
         var file = new File(filePath);
         this.fileLines = Files.readAllLines(file.toPath());
