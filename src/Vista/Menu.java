@@ -21,7 +21,7 @@ public abstract class Menu {
                 input.nextLine();
                 return opt;
             }catch(InputMismatchException e){
-                System.out.println("\nERROR: El valor ingresado debe ser un número\n");
+                System.out.println("ERROR: El valor ingresado debe ser un número\n");
                 input.nextLine();
             }
         }

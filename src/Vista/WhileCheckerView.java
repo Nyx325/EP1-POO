@@ -74,27 +74,26 @@ public class WhileCheckerView extends Menu{
             switch (opt) {
                 case 1:
 
-                    System.out.println("Ingrese la dirección del archivo a revisar");
+                    System.out.printf("Ingrese la ruta absoluta del archivo: ");
                     String path = input.nextLine();
-
                     try {
                         this.checker = new WhileChecker(path);
                     } catch (NoSuchFileException e) {
-                        System.out.println("El archivo ingresado no existe");
+                        System.out.println("ERROR: El archivo ingresado no existe\n");
                         flag = true;
                     } catch (IOException e){
-                        System.out.println("Ocurrió un error al abrir el archivo");
+                        System.out.println("Ocurrió un error al abrir el archivo\n");
                         System.out.println("\n");
                         // Mostrar estos mensajes de en qué linea y en qué archivo ocurrió el error
                         e.getStackTrace();
                         System.out.println("\n");
                         flag = true;
                     }
-                    
+
                     break;
                 
                 case 2:
-                    System.out.println("\nCancelando operación...\n");
+                    System.out.println("Cancelando operación...\n");
                     break;
                 default:
                     System.out.println("Opción no válida");
