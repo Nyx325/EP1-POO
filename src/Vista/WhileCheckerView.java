@@ -2,12 +2,11 @@ package Vista;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
-import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import Logica.Entidad.WhileChecker;
 
-public class WhileCheckerView {
-    Scanner input;
+public class WhileCheckerView extends Menu{
     WhileChecker checker;
 
     public WhileCheckerView(){
@@ -22,17 +21,8 @@ public class WhileCheckerView {
             System.out.println("Bienvenido a la validacion de bucles while");
             System.out.println("1) Validar estructuras while de un archivo");
             System.out.println("2) Salir");
-            System.out.printf("Elija una opción: ");
-            
-            try{
-                opt = input.nextInt();
-                input.nextLine();
-            }catch(InputMismatchException e){
-                System.out.println("\nERROR: El valor ingresado debe ser un número\n");
-                input.nextLine();
-                continue;
-            }
 
+            opt = super.optSelector();
             switch (opt) {
                 case 1:
                     this.checkFile();
@@ -47,9 +37,12 @@ public class WhileCheckerView {
         }while(opt != 2);
     }
 
+
+    /*
     public void checkFile(){
         boolean flag = false;
         do{
+
             System.out.println("Ingrese la dirección del archivo a revisar");
             String path = input.nextLine();
             try {
@@ -59,11 +52,55 @@ public class WhileCheckerView {
                 flag = true;
             } catch (IOException e){
                 System.out.println("Ocurrió un error al abrir el archivo");
+                System.out.println("\n");
+                // Mostrar estos mensajes de en qué linea y en qué archivo ocurrió el error
+                e.getStackTrace();
+                System.out.println("\n");
                 flag = true;
             }
         }while(flag);
         
     }
+     */
+    public void checkFile(){
+        int opt;
+        boolean flag;
+        do{
+            System.out.println("Ingrese una opción");
+            System.out.println("1) Capturar una ruta al archivo");
+            System.out.println("2) Cancelar");
+            opt = this.optSelector();
+            
+            switch (opt) {
+                case 1:
 
+                    System.out.println("Ingrese la dirección del archivo a revisar");
+                    String path = input.nextLine();
+
+                    try {
+                        this.checker = new WhileChecker(path);
+                    } catch (NoSuchFileException e) {
+                        System.out.println("El archivo ingresado no existe");
+                        flag = true;
+                    } catch (IOException e){
+                        System.out.println("Ocurrió un error al abrir el archivo");
+                        System.out.println("\n");
+                        // Mostrar estos mensajes de en qué linea y en qué archivo ocurrió el error
+                        e.getStackTrace();
+                        System.out.println("\n");
+                        flag = true;
+                    }
+                    
+                    break;
+                
+                case 2:
+                    System.out.println("\nCancelando operación...\n");
+                    break;
+                default:
+                    System.out.println("Opción no válida");
+                    break;
+            }
+        }while(opt != 2);
+    }
 
 }
