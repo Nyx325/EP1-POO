@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+import Logica.Excepciones.InvalidSentence;
 // import Logica.Excepciones.NoClosedLoop;
 import Logica.Excepciones.NoSuchSentence;
 import Logica.Excepciones.NoWhileLoopOnFile;
@@ -23,6 +24,7 @@ public class WhileChecker {
 
     public void check() throws Exception {
         this.getWhileOnFile();
+        this.checkSentences();
         // this.whileExist();
     }
 
@@ -98,5 +100,24 @@ public class WhileChecker {
             }
 
             return true;
+    }
+
+    public void checkSentences() throws Exception{
+        for(WhileLoop loop : loopsOnFile){
+            if(
+                loop.sentence.contains("&&") ||
+                loop.sentence.contains("||") ||
+                loop.sentence.contains("<") ||
+                loop.sentence.contains(">")
+
+            ){
+
+            }
+            else{
+                if(loop.sentence.split(" ").length != 1){
+                    throw new InvalidSentence(loop.startLine);
+                }
+            }
+        }
     }
 }

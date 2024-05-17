@@ -3,7 +3,7 @@ public class a {
     
         asdhashdkjash
     {
-        while(sdfjl){
+        while(sdfjl >= 1){
 
         }
     }

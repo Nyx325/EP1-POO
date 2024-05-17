@@ -68,7 +68,8 @@ public class WhileCheckerView extends Menu {
 
                     try {
                         this.checker.check();
-                        this.print();
+                        //this.print();
+                        System.out.println("No se encontraron errores\n");
                     } catch (NoSuchSentence e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
