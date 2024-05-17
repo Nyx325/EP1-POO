@@ -17,7 +17,7 @@ public class WhileLoop {
     public boolean closed;
     public String sentence;
 
-    public WhileLoop() {
+    public WhileLoop(){
         this.startLine = -1;
         this.endLine = -1;
         this.multiLine = false;
@@ -30,4 +30,20 @@ public class WhileLoop {
         this.multiLine = false;
         this.closed = false;
     }
+
+    public WhileLoop(long startLine, long endLine, boolean multiLine, boolean closed, String sentence) {
+        this.startLine = startLine;
+        this.endLine = endLine;
+        this.multiLine = multiLine;
+        this.closed = closed;
+        this.sentence = sentence;
+    }
+
+    public WhileLoop(long startLine, boolean multiLine, boolean closed, String sentence) {
+        this.startLine = startLine;
+        this.multiLine = multiLine;
+        this.closed = closed;
+        this.sentence = sentence;
+    }
+
 }

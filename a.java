@@ -1,5 +1,5 @@
 public class a {
-    while(){
+    while(si){
 
     }
 }

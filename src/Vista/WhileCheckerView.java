@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.Scanner;
 import Logica.Entidad.WhileChecker;
-import Logica.Excepciones.NoClosedLoop;
+// import Logica.Excepciones.NoClosedLoop;
 import Logica.Excepciones.NoSuchSentence;
 
 public class WhileCheckerView extends Menu {
@@ -65,12 +65,7 @@ public class WhileCheckerView extends Menu {
 
                     try {
                         this.checker.check();
-                    } /*
-                       * catch (NoClosedLoop e) {
-                       * System.out.println(e.getMessage());
-                       * }
-                       */ catch (NoSuchSentence e) {
-                        // TODO Auto-generated catch block
+                    } catch (NoSuchSentence e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
                     } catch (Exception e) {
@@ -86,5 +81,4 @@ public class WhileCheckerView extends Menu {
             }
         } while (opt != 2);
     }
-
 }

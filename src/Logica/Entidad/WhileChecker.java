@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import Logica.Excepciones.NoClosedLoop;
+// import Logica.Excepciones.NoClosedLoop;
 import Logica.Excepciones.NoSuchSentence;
 import Logica.Excepciones.NoWhileLoopOnFile;
 
@@ -22,49 +22,54 @@ public class WhileChecker {
     }
 
     public void check() throws Exception {
-        this.whileExist();
+        this.getWhileOnFile();
+        // this.whileExist();
     }
 
-    /**
-     * Método que busca, delimita y valida que el bucle while esté
-     * cerrado correctamente
-     * 
-     * @throws NoWhileLoopOnFile significa que no se ha encontrado
-     *                           ningun bucle while dentro del archivo
-     */
-    public void whileExist() throws Exception {
-        int lineNum = 0;
+    public void getWhileOnFile() {
+        int index, sentEndIndex, lineNum = 0;
+        boolean sentenceEnd = false, noCharSep = false;
+        String sentence = "";
+        // No tengo idea de qué estoy haciendo
         for (String line : fileLines) {
-            if (line.contains("while(")) {
-                var newLopp = new WhileLoop(lineNum);
+            // Buscar la palabra while en la linea actual
+            index = line.indexOf("while(", 0);
 
-                if (getSentence(line) == "") {
-                    throw new NoSuchSentence(lineNum);
+            // En caso de no encontrarlo, pasar a la siguiente linea
+            if (index == -1) {
+                lineNum++;
+                continue;
+            }
+
+            // Buscar lo que corresponde a la sentencia
+            sentenceEnd = false;
+            sentence = "";
+            char[] lineCharArr = line.toCharArray();
+            for (int i = index + 6; i < lineCharArr.length; i++) {
+                // Encontrar si 
+
+                // Delimitar dónde termina la sentencia
+                if (lineCharArr[i] == ')') {
+                    sentEndIndex = i;
+                    sentenceEnd = true;
                 }
 
-                this.loopsOnFile.add(newLopp);
+                // Almacenar sentencia
+                if (!sentenceEnd)
+                    sentence = sentence + lineCharArr[i];
             }
+
+            // Determinar metadatos de el bucle
+            var newLoop = new WhileLoop(
+                    lineNum,
+                    false,
+                    false,
+                    sentence
+            );
+
+            this.loopsOnFile.add(newLoop);
+
             lineNum++;
         }
-
-        if (loopsOnFile.isEmpty())
-            throw new NoWhileLoopOnFile();
-    }
-
-    public String getSentence(String line) {
-        boolean flag = false;
-        String sentencia = "";
-        for (char c : line.toCharArray()) {
-            if (c == ')')
-                flag = false;
-            if (flag)
-                sentencia = sentencia + c;
-            if (c == '(')
-                flag = true;
-        }
-
-        System.out.println(sentencia);
-
-        return sentencia;
     }
 }
