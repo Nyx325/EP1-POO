@@ -8,7 +8,6 @@ import java.util.List;
 
 import Logica.Excepciones.InvalidSentence;
 // import Logica.Excepciones.NoClosedLoop;
-import Logica.Excepciones.NoSuchSentence;
 import Logica.Excepciones.NoWhileLoopOnFile;
 
 public class WhileChecker {
@@ -28,7 +27,7 @@ public class WhileChecker {
         // this.whileExist();
     }
 
-    public void getWhileOnFile() {
+    public void getWhileOnFile() throws Exception{
         int index, sentEndIndex = -1, lineNum = 1;
         boolean sentenceEnd = false, bracketFound = false;
         String sentence = "";
@@ -80,6 +79,8 @@ public class WhileChecker {
 
             lineNum++;
         }
+
+        if(loopsOnFile.isEmpty()) throw new NoWhileLoopOnFile();
     }
 
     /**
@@ -104,20 +105,13 @@ public class WhileChecker {
 
     public void checkSentences() throws Exception{
         for(WhileLoop loop : loopsOnFile){
-            if(
-                loop.sentence.contains("&&") ||
-                loop.sentence.contains("||") ||
-                loop.sentence.contains("<") ||
-                loop.sentence.contains(">")
-
-            ){
-
-            }
-            else{
+            if(!(loop.sentence.contains("&&") || loop.sentence.contains("||") || loop.sentence.contains("<") || loop.sentence.contains(">"))){
                 if(loop.sentence.split(" ").length != 1){
-                    throw new InvalidSentence(loop.startLine);
+                    throw new InvalidSentence("Sentencia \"" + loop.sentence + "\" no válida\nen la linea "+loop.startLine+"\n");
                 }
             }
+
+            if(loop.sentence == "") throw new InvalidSentence("Sentencia faltante en la linea" + loop.startLine);
         }
     }
 }

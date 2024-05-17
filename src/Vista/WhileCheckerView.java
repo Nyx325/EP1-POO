@@ -5,8 +5,6 @@ import java.nio.file.NoSuchFileException;
 import java.util.Scanner;
 import Logica.Entidad.WhileChecker;
 import Logica.Entidad.WhileLoop;
-// import Logica.Excepciones.NoClosedLoop;
-import Logica.Excepciones.NoSuchSentence;
 
 public class WhileCheckerView extends Menu {
     WhileChecker checker;
@@ -70,9 +68,6 @@ public class WhileCheckerView extends Menu {
                         this.checker.check();
                         //this.print();
                         System.out.println("No se encontraron errores\n");
-                    } catch (NoSuchSentence e) {
-                        System.out.println(e.getMessage());
-                        e.printStackTrace();
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
