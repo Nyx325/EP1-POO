@@ -113,7 +113,12 @@ public class WhileChecker {
 
     private void checkSentences() throws Exception{
         for(WhileLoop loop : loopsOnFile){
-            if(!(loop.sentence.contains("&&") || loop.sentence.contains("||") || loop.sentence.contains("<") || loop.sentence.contains(">"))){
+            if(!(loop.sentence.contains("&&") ||
+                 loop.sentence.contains("||") || 
+                 loop.sentence.contains("==") || 
+                 loop.sentence.contains("<") || 
+                 loop.sentence.contains(">"))
+            ){
                 if(loop.sentence.split(" ").length != 1){
                     throw new InvalidSentence("Sentencia \"" + loop.sentence + "\" no válida\nen la linea "+loop.startLine+"\n");
                 }
@@ -124,25 +129,40 @@ public class WhileChecker {
     }
 
     private void checkClosedBrackets() throws Exception{
-        for(int i = this.loopsOnFile.size() - 1; i >= 0; i--){
-            System.out.println("A");
-            for(int j = loopsOnFile.get(i).startLine; j < this.fileLines.size(); j++){
-                System.out.println("B");
-                for(char c : fileLines.get(j).toCharArray()){
-                    System.out.println("C");
-                    WhileLoop loop = loopsOnFile.get(i);
-                    System.out.println(loop);
-                    if(c == '}'){
-                        loop.endLine = j;
-                        loop.closed = true;
-                    } 
-                    
-                }
-            }
+        List<Integer> lastLineUsed = new ArrayList<>();
+        boolean closeLineUsed = false;
 
+        for(int i = this.loopsOnFile.size() - 1; i >= 0; i--){
+            WhileLoop loop = loopsOnFile.get(i);
+            if(loop.multiLine == false) continue;
+
+            for(int j = loop.startLine; j < this.fileLines.size(); j++){
+                closeLineUsed = false;
+
+                for(Integer index : lastLineUsed){
+                    if(index == j){
+                        closeLineUsed = true;
+                        break;
+                    }
+                }
+
+                if(closeLineUsed) break;
+
+                for(char c : fileLines.get(j).toCharArray()){
+                    if(c == '}'){
+                        loop.closed = true;
+                        loop.endLine = j;
+                        lastLineUsed.add(j);
+                        break;
+                    }
+                }
+                if(loop.closed) break;
+            }
         }
         
         for(WhileLoop loop : loopsOnFile){
+            System.out.println(loop);
+            System.out.println("MultiLine: "+loop.multiLine +"== true && Closed: "+loop.closed +"== false");
             if(loop.multiLine == true && loop.closed == false) throw new MissingCloseBracket(loop.startLine);
         }
     }

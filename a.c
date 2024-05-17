@@ -7,6 +7,9 @@ int main(){
 
     while(2) printf("ksajdlkas");
 
+    while(1 == 2) {
+
+
     while(2)
 
 
