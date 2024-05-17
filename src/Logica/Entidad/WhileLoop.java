@@ -46,4 +46,8 @@ public class WhileLoop {
         this.sentence = sentence;
     }
 
+    @Override
+    public String toString() {
+        return "Inicio: "+startLine+" Fin: "+endLine+"\nMultiLine: "+multiLine+" Cerrao: "+closed+"\nSentencia: "+sentence+"\n";
+    }
 }

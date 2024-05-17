@@ -1,5 +1,14 @@
 public class a {
-    while(si){
+    while(si)
+    
+        asdhashdkjash
+    {
+        while(sdfjl){
+
+        }
+    }
+
+    while(no){
 
     }
 }

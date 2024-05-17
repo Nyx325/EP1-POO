@@ -13,7 +13,7 @@ import Logica.Excepciones.NoWhileLoopOnFile;
 public class WhileChecker {
     List<String> fileLines;
     // Lista de en qué parte del archivo se encuentran los bucles
-    List<WhileLoop> loopsOnFile;
+    public List<WhileLoop> loopsOnFile;
 
     public WhileChecker(String filePath) throws IOException {
         this.loopsOnFile = new ArrayList<>();
@@ -27,13 +27,16 @@ public class WhileChecker {
     }
 
     public void getWhileOnFile() {
-        int index, sentEndIndex, lineNum = 0;
-        boolean sentenceEnd = false, noCharSep = false;
+        int index, sentEndIndex = -1, lineNum = 1;
+        boolean sentenceEnd = false, bracketFound = false;
         String sentence = "";
-        // No tengo idea de qué estoy haciendo
         for (String line : fileLines) {
+            //
+
             // Buscar la palabra while en la linea actual
             index = line.indexOf("while(", 0);
+
+            // Validar si el ciclo anterior se
 
             // En caso de no encontrarlo, pasar a la siguiente linea
             if (index == -1) {
@@ -59,10 +62,14 @@ public class WhileChecker {
                     sentence = sentence + lineCharArr[i];
             }
 
+            // Buscar si la primer llave se encuentra en esta misma
+            // linea
+            boolean multiLine = this.findMultiLine(sentEndIndex+1, lineCharArr);
+
             // Determinar metadatos de el bucle
             var newLoop = new WhileLoop(
                     lineNum,
-                    false,
+                    multiLine,
                     false,
                     sentence
             );
@@ -71,5 +78,25 @@ public class WhileChecker {
 
             lineNum++;
         }
+    }
+
+    /**
+     * Itera una linea en busca de una llave de apertura
+     * sin que exista algun otro tipo de caracter diferente
+     * a espacios o saltos de linea
+     * @return si se encontró o no lo una llave de apertura
+     */
+    private boolean findMultiLine(int indexInicio, char[] lineCharArr){
+            for(int i = indexInicio; i < lineCharArr.length; i++){
+                //System.out.println(lineCharArr[i]);
+
+                if(lineCharArr[i] == '{') return true;
+
+                if(!(lineCharArr[i] == '{' || lineCharArr[i] == ' ' || lineCharArr[i] == '\n'))
+                    return false;
+                
+            }
+
+            return true;
     }
 }

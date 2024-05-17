@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.Scanner;
 import Logica.Entidad.WhileChecker;
+import Logica.Entidad.WhileLoop;
 // import Logica.Excepciones.NoClosedLoop;
 import Logica.Excepciones.NoSuchSentence;
 
@@ -55,16 +56,19 @@ public class WhileCheckerView extends Menu {
                         this.checker = new WhileChecker(path);
                     } catch (NoSuchFileException e) {
                         System.out.println("ERROR: El archivo ingresado no existe\n");
+                        continue;
                     } catch (IOException e) {
                         System.out.println("Ocurrió un error al abrir el archivo\n");
                         System.out.println("\n");
                         // Mostrar estos mensajes de en qué linea y en qué archivo ocurrió el error
                         e.getStackTrace();
                         System.out.println("\n");
+                        continue;
                     }
 
                     try {
                         this.checker.check();
+                        this.print();
                     } catch (NoSuchSentence e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
@@ -80,5 +84,11 @@ public class WhileCheckerView extends Menu {
                     break;
             }
         } while (opt != 2);
+    }
+
+    public void print(){
+        for(WhileLoop loop : checker.loopsOnFile){
+            System.out.println(loop);
+        }
     }
 }
