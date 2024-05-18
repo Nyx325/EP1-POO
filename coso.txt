@@ -1,0 +1,9 @@
+En caso de encontrar un bucle while donde la llave de apertura
+no se encuentra en la misma linea del while
+
+- Dejar un indicador que falta encontrar una llave de apertura
+- en caso de encontrar un nuevo bucle while entonces cancelar
+la busqueda de la llave de apertura y marcar el ultimo bucle 
+como multi linea
+
+- Si estás buscando llave y encuentras un nuevo ciclo while.

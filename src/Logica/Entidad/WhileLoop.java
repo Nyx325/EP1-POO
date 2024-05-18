@@ -11,8 +11,8 @@ package Logica.Entidad;
  * en una lista
  */
 public class WhileLoop {
-    public long startLine;
-    public long endLine;
+    public int startLine;
+    public int endLine;
     public boolean multiLine;
     public boolean closed;
     public String sentence;
@@ -24,14 +24,14 @@ public class WhileLoop {
         this.closed = false;
     }
 
-    public WhileLoop(long startLine) {
+    public WhileLoop(int startLine) {
         this.startLine = startLine;
         this.endLine = -1;
         this.multiLine = false;
         this.closed = false;
     }
 
-    public WhileLoop(long startLine, long endLine, boolean multiLine, boolean closed, String sentence) {
+    public WhileLoop(int startLine, int endLine, boolean multiLine, boolean closed, String sentence) {
         this.startLine = startLine;
         this.endLine = endLine;
         this.multiLine = multiLine;
@@ -39,7 +39,7 @@ public class WhileLoop {
         this.sentence = sentence;
     }
 
-    public WhileLoop(long startLine, boolean multiLine, boolean closed, String sentence) {
+    public WhileLoop(int startLine, boolean multiLine, boolean closed, String sentence) {
         this.startLine = startLine;
         this.multiLine = multiLine;
         this.closed = closed;
