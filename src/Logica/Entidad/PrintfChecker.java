@@ -9,10 +9,10 @@ public class PrintfChecker {
     String sentence;
     String quotesSentece;
     String argsSentece;
-    List<String> argsExpected;
+    int argsExpected;
 
     public PrintfChecker() {
-        argsExpected = new ArrayList<>();
+        argsExpected = 0;
         quotesSentece = "";
         argsSentece = "";
     }
@@ -51,31 +51,30 @@ public class PrintfChecker {
 
     public void getExtraArgs(int startArgsIndex) throws Exception {
         boolean argFound = false;
-        String arg = "";
         char[] quotesSentCharArr = quotesSentece.toCharArray();
 
         for (int i = 0; i < quotesSentece.length(); i++) {
-            System.out.println(quotesSentCharArr[i]);
-
-            if (argFound == true && quotesSentCharArr[i] == ' ' || quotesSentCharArr[i] == '%') {
-                argsExpected.add(arg);
-                arg = "";
+            if (argFound) {
                 argFound = false;
+
+                if (formatIsValid(quotesSentCharArr[i]))
+                    argsExpected++;
             }
 
-            System.out.println("argFound: " + argFound + " quotesSenCA: " + quotesSentCharArr[i]);
-            System.out.println("Sentencia: " + (!argFound && quotesSentCharArr[i] == '%'));
-            if (argFound == false && quotesSentCharArr[i] == '%')
+            if (quotesSentCharArr[i] == '%')
                 argFound = true;
-
-            if (argFound)
-                arg = arg + quotesSentCharArr[i];
-
-        }
-
-        System.out.println("Args encotrados");
-        for(String args:argsExpected){
-            System.out.println(args);
         }
     }
+
+    private boolean formatIsValid(char format) {
+        char[] formats = { 'd', 'i', 'o', 'u', 'x', 'X', 'f', 'e', 'g', 'c', 's', 'p', 'n' };
+
+        for (char c : formats)
+            if (c == format)
+                return true;
+
+        return false;
+    }
+
+    
 }

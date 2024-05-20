@@ -81,8 +81,8 @@ public class WhileCheckerView extends Menu {
         } while (opt != 2);
     }
 
-    public void print(){
-        for(WhileLoop loop : checker.loopsOnFile){
+    public void print() {
+        for (WhileLoop loop : checker.loopsOnFile) {
             System.out.println(loop);
         }
     }
