@@ -6,9 +6,9 @@ import Logica.Entidad.PrintfChecker;
 
 public class PrintfCheckerView extends Menu {
     public PrintfChecker checker;
-    Scanner input;
 
     public PrintfCheckerView() {
+        this.checker = new PrintfChecker();
         this.input = new Scanner(System.in);
     }
 
@@ -23,9 +23,11 @@ public class PrintfCheckerView extends Menu {
             opt = super.optSelector();
             switch (opt) {
                 case 1:
+                    System.out.printf("Ingrese la sentencia printf: ");
                     String sentence = input.nextLine();
                     try {
                         checker.check(sentence);
+                        System.out.println("No se encontraron errores\n");
                     } catch (Exception e) {
                         System.out.println(e.getMessage() + "\n");
                     }

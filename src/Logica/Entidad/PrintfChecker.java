@@ -20,10 +20,11 @@ public class PrintfChecker {
     public void check(String sentence) throws Exception {
         this.sentence = sentence;
         int startArgs = checkSentence();
-        getExtraArgs(startArgs);
+        getExtraArgs();
+        validArgs(startArgs);
     }
 
-    public int checkSentence() throws Exception {
+    private int checkSentence() throws Exception {
         int i;
         if (!sentence.contains("printf("))
             throw new PrintfSyntaxError("No se encuentra ninguna sentencia prinf");
@@ -46,10 +47,10 @@ public class PrintfChecker {
         if (!quotesClosed)
             throw new PrintfSyntaxError("No se han cerrado las comillas del primer argumento");
 
-        return i + 2;
+        return i + 1;
     }
 
-    public void getExtraArgs(int startArgsIndex) throws Exception {
+    private void getExtraArgs() throws Exception {
         boolean argFound = false;
         char[] quotesSentCharArr = quotesSentece.toCharArray();
 
@@ -76,5 +77,35 @@ public class PrintfChecker {
         return false;
     }
 
-    
+    private void validArgs(int startArgsIndex) throws Exception {
+        List<String> args = new ArrayList<>();
+        boolean closedParenthesis = false;
+        String arg = "";
+        char[] sentCharArr = sentence.toCharArray();
+        // Caso printf sin argumentos
+        if (argsExpected == 0 && sentCharArr[startArgsIndex] == ')')
+            return;
+
+        // TODO validar primer coma, o evitarla para que no se rompa el algoritmo
+        for (int i = startArgsIndex+1; i < sentence.length(); i++) {
+            System.out.println("Char: "+sentCharArr[i]+", arg: "+arg);
+            if (sentCharArr[i] == ')') {
+                closedParenthesis = true;
+                break;
+            }
+
+            //TODO aqui rompe la lectura de la primer coma, de ahi el +1 en i
+            if (sentCharArr[i] == ',' && arg != "") {
+                arg = arg.trim();
+                System.out.println(arg);
+                if (arg.contains(" ") || arg.contains("\n"))
+                    throw new PrintfSyntaxError("Argumento \"" + arg + "\" no válido");
+                args.add(arg);
+                arg = "";
+                continue;
+            }
+
+            arg = arg + sentCharArr[i];
+        }
+    }
 }
