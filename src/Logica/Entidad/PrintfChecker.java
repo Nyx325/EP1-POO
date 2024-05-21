@@ -8,13 +8,11 @@ import Logica.Excepciones.PrintfSyntaxError;
 public class PrintfChecker {
     String sentence;
     String quotesSentece;
-    String argsSentece;
     int argsExpected;
 
     public PrintfChecker() {
         argsExpected = 0;
         quotesSentece = "";
-        argsSentece = "";
     }
 
     public void check(String sentence) throws Exception {
@@ -86,15 +84,12 @@ public class PrintfChecker {
         if (argsExpected == 0 && sentCharArr[startArgsIndex] == ')')
             return;
 
-        // TODO validar primer coma, o evitarla para que no se rompa el algoritmo
-        for (int i = startArgsIndex+1; i < sentence.length(); i++) {
-            System.out.println("Char: "+sentCharArr[i]+", arg: "+arg);
+        for (int i = startArgsIndex + 1; i < sentence.length(); i++) {
             if (sentCharArr[i] == ')') {
                 closedParenthesis = true;
                 break;
             }
 
-            //TODO aqui rompe la lectura de la primer coma, de ahi el +1 en i
             if (sentCharArr[i] == ',' && arg != "") {
                 arg = arg.trim();
                 System.out.println(arg);
@@ -107,5 +102,16 @@ public class PrintfChecker {
 
             arg = arg + sentCharArr[i];
         }
+
+        System.out.println("Args: "+args.size()+" Expected: "+this.argsExpected);
+
+        if (!closedParenthesis)
+            throw new PrintfSyntaxError("Parentesis de cierre faltante");
+
+
+
+        if (argsExpected != args.size())
+            throw new PrintfSyntaxError("El numero de argumentos no corresponde\nEsperados: " + argsExpected
+                    + "\nEncontrados: " + args.size());
     }
 }
