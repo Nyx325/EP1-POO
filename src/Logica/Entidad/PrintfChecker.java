@@ -16,6 +16,8 @@ public class PrintfChecker {
     }
 
     public void check(String sentence) throws Exception {
+        argsExpected = 0;
+        quotesSentece = "";
         this.sentence = sentence;
         int startArgs = checkSentence();
         getExtraArgs();

@@ -1,5 +1,9 @@
 #include <stdio.h>
 
 int main(){
-    printf("\%fqwe", 1 asdhkjsadjh, 2, 3);
+    while(1){
+
+    }
+
+    while(1) asdhkjasd;
 }
