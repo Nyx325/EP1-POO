@@ -84,7 +84,7 @@ public class PrintfChecker {
                 
             if (sentence[i] == ')') {
                 parenthesisClosed = true;
-                if(sentence[i+1] == ';')
+                if(sentence.length-1 >= i+1 && sentence[i+1] == ';')
                     semicolon = true;
                 break;
             }

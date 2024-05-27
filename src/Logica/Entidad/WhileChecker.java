@@ -8,16 +8,16 @@ import java.util.List;
 
 import Logica.Excepciones.InvalidSentence;
 import Logica.Excepciones.MissingCloseBracket;
-// import Logica.Excepciones.NoClosedLoop;
 import Logica.Excepciones.NoWhileLoopOnFile;
+import java.util.LinkedList;
 
 public class WhileChecker {
     List<String> fileLines;
     // Lista de en qué parte del archivo se encuentran los bucles
-    public List<WhileLoop> loopsOnFile;
+    List<WhileLoop> loopsOnFile;
 
     public WhileChecker(String filePath) throws IOException {
-        this.loopsOnFile = new ArrayList<>();
+        this.loopsOnFile = new LinkedList<>();
         var file = new File(filePath);
         this.fileLines = Files.readAllLines(file.toPath());
     }
@@ -49,7 +49,7 @@ public class WhileChecker {
             }
 
             if(index == -1 && searchingBracket && this.findMultiLine(0, line.toCharArray())){
-                loopsOnFile.getLast().multiLine = true;
+                loopsOnFile.get(loopsOnFile.size()-1).multiLine = true;
             }
 
             // Buscar lo que corresponde a la sentencia
@@ -99,8 +99,6 @@ public class WhileChecker {
      */
     private boolean findMultiLine(int indexInicio, char[] lineCharArr){
             for(int i = indexInicio; i < lineCharArr.length; i++){
-                //System.out.println(lineCharArr[i]);
-
                 if(lineCharArr[i] == '{') return true;
 
                 if(!(lineCharArr[i] == '{' || lineCharArr[i] == ' ' || lineCharArr[i] == '\n'))
@@ -124,7 +122,7 @@ public class WhileChecker {
                 }
             }
 
-            if(loop.sentence == "") throw new InvalidSentence("Sentencia faltante en la linea" + loop.startLine);
+            if(loop.sentence == "") throw new InvalidSentence("Sentencia faltante en la linea " + loop.startLine+"\n");
         }
     }
 
@@ -161,8 +159,6 @@ public class WhileChecker {
         }
         
         for(WhileLoop loop : loopsOnFile){
-            System.out.println(loop);
-            System.out.println("MultiLine: "+loop.multiLine +"== true && Closed: "+loop.closed +"== false");
             if(loop.multiLine == true && loop.closed == false) throw new MissingCloseBracket(loop.startLine);
         }
     }

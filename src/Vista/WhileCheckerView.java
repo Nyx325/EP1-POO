@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.Scanner;
 import Logica.Entidad.WhileChecker;
-import Logica.Entidad.WhileLoop;
 
 public class WhileCheckerView extends Menu {
     WhileChecker checker;
@@ -79,11 +78,5 @@ public class WhileCheckerView extends Menu {
                     break;
             }
         } while (opt != 2);
-    }
-
-    public void print() {
-        for (WhileLoop loop : checker.loopsOnFile) {
-            System.out.println(loop);
-        }
     }
 }
