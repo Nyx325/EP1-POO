@@ -1,8 +1,5 @@
 package Logica.Entidad;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import Logica.Excepciones.PrintfSyntaxError;
 
 public class PrintfChecker {
@@ -78,42 +75,27 @@ public class PrintfChecker {
     }
 
     private void validArgs(int startArgsIndex) throws Exception {
-        List<String> args = new ArrayList<>();
-        boolean closedParenthesis = false;
-        String arg = "";
-        char[] sentCharArr = sentence.toCharArray();
-        // Caso printf sin argumentos
-        if (argsExpected == 0 && sentCharArr[startArgsIndex] == ')')
-            return;
-
-        for (int i = startArgsIndex + 1; i < sentence.length(); i++) {
-            if (sentCharArr[i] == ')') {
-                closedParenthesis = true;
+        int args = 0;
+        boolean parenthesisClosed = false, semicolon = false;
+        char[] sentence = this.sentence.toCharArray();
+        for (int i = startArgsIndex; i < this.sentence.length(); i++) {
+            if (sentence[i] == ',')
+                args++;
+                
+            if (sentence[i] == ')') {
+                parenthesisClosed = true;
+                if(sentence[i+1] == ';')
+                    semicolon = true;
                 break;
             }
-
-            if (sentCharArr[i] == ',' && arg != "") {
-                arg = arg.trim();
-                System.out.println(arg);
-                if (arg.contains(" ") || arg.contains("\n"))
-                    throw new PrintfSyntaxError("Argumento \"" + arg + "\" no válido");
-                args.add(arg);
-                arg = "";
-                continue;
-            }
-
-            arg = arg + sentCharArr[i];
         }
 
-        System.out.println("Args: "+args.size()+" Expected: "+this.argsExpected);
-
-        if (!closedParenthesis)
-            throw new PrintfSyntaxError("Parentesis de cierre faltante");
-
-
-
-        if (argsExpected != args.size())
-            throw new PrintfSyntaxError("El numero de argumentos no corresponde\nEsperados: " + argsExpected
-                    + "\nEncontrados: " + args.size());
+        if (!parenthesisClosed)
+            throw new PrintfSyntaxError("No se ha colocado paréntesis de cierre");
+        if (!semicolon)
+            throw new PrintfSyntaxError("No se ha colocado punto y coma");
+        if (args != argsExpected)
+            throw new PrintfSyntaxError(
+                    "No coinciden los argumentos\nEsperados: " + argsExpected + "\nEncontrados: " + args);
     }
 }
